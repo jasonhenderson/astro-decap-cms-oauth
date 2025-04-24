@@ -19,11 +19,6 @@ const defaultOptions: DecapCMSOptions = {
   oauthLoginRoute: "/oauth",
   oauthCallbackRoute: "/oauth/callback",
 };
-declare global {
-  interface Window {
-    CMS: any;
-  }
-}
 
 export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegration {
   const {
