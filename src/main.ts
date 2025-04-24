@@ -9,6 +9,7 @@ export interface DecapCMSOptions {
   oauthDisabled?: boolean;
   oauthLoginRoute?: string;
   oauthCallbackRoute?: string;
+  onPreSave?: (event: any) => {} | undefined;
 }
 const defaultOptions: DecapCMSOptions = {
   decapCMSSrcUrl: "",
@@ -18,7 +19,13 @@ const defaultOptions: DecapCMSOptions = {
   oauthDisabled: false,
   oauthLoginRoute: "/oauth",
   oauthCallbackRoute: "/oauth/callback",
+  onPreSave: undefined,
 };
+declare global {
+  interface Window {
+    CMS: any;
+  }
+}
 
 export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegration {
   const {
@@ -29,6 +36,7 @@ export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegratio
     oauthDisabled,
     oauthLoginRoute,
     oauthCallbackRoute,
+    onPreSave,
   } = {
     ...defaultOptions,
     ...options,
@@ -57,7 +65,11 @@ export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegratio
             optional: true,
             default: decapCMSVersion,
           });
-
+          // register CMS events
+          window.CMS.registerEventListener({
+            name: 'preSave',
+            handler: onPreSave,
+          });
           // mount DecapCMS admin route
           injectRoute({
             pattern: adminRoute,

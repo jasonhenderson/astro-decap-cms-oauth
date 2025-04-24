@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: dorukgezici/astro-decap-cms-oauth
+  repo: jasonhenderson/astro-decap-cms-oauth
   branch: main
-  site_domain: astro-decap-cms-oauth.vercel.app
-  base_url: https://astro-decap-cms-oauth.vercel.app
+  site_domain: localhost:4321 #astro-decap-cms-oauth.vercel.app
+  base_url: http://localhost:4321 #https://astro-decap-cms-oauth.vercel.app
   auth_endpoint: oauth
 
 media_folder: public/uploads
