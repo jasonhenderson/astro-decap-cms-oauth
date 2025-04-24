@@ -1,5 +1,6 @@
 # build output
-dist/
+# include dist to include the dependency directly from github
+# dist/ 
 .vercel
 
 # generated types
