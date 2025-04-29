@@ -3,6 +3,11 @@ import { AstroIntegration } from 'astro';
 declare function decapCMS(options?: DecapCMSOptions): AstroIntegration;
 export default decapCMS;
 
+declare type DecapCMSEvent = {
+    name: string;
+    handler: () => {};
+};
+
 declare interface DecapCMSOptions {
     decapCMSSrcUrl?: string;
     decapCMSVersion?: string;
@@ -11,6 +16,7 @@ declare interface DecapCMSOptions {
     oauthDisabled?: boolean;
     oauthLoginRoute?: string;
     oauthCallbackRoute?: string;
+    decapCMSEvents?: DecapCMSEvent[];
 }
 
 export { }
@@ -18,6 +24,8 @@ export { }
 
 declare global {
     interface Window {
-        CMS: any;
+        CMS: {
+            registerEventListener: any;
+        };
     }
 }

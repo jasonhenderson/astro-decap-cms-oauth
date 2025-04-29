@@ -6,7 +6,8 @@ const defaultOptions = {
   adminRoute: "/admin",
   oauthDisabled: false,
   oauthLoginRoute: "/oauth",
-  oauthCallbackRoute: "/oauth/callback"
+  oauthCallbackRoute: "/oauth/callback",
+  decapCMSEvents: []
 };
 function decapCMS(options = {}) {
   const {
@@ -16,7 +17,8 @@ function decapCMS(options = {}) {
     adminRoute,
     oauthDisabled,
     oauthLoginRoute,
-    oauthCallbackRoute
+    oauthCallbackRoute,
+    decapCMSEvents
   } = {
     ...defaultOptions,
     ...options
@@ -27,8 +29,35 @@ function decapCMS(options = {}) {
   return {
     name: "astro-decap-cms-oauth",
     hooks: {
-      "astro:config:setup": async ({ injectRoute, updateConfig }) => {
+      "astro:config:setup": async ({ injectRoute, injectScript, updateConfig }) => {
         const env = { validateSecrets: true, schema: {} };
+        if (decapCMSEvents && decapCMSEvents.length > 0) {
+          injectScript(
+            "page",
+            `
+              console.log('registering decapCMS events with CMS: ', ${JSON.stringify(decapCMSEvents)});
+              // window.CMS = window.CMS || {};
+              // window.CMS.registerEventListener = function (eventName, handler) {
+              //   if (!window.CMS.events) {
+              //     window.CMS.events = {};
+              //   }
+              //   if (!window.CMS.events[eventName]) {
+              //     window.CMS.events[eventName] = [];
+              //   }
+              //   window.CMS.events[eventName].push(handler);
+              // }
+              // window.CMS.events = window.CMS.events || {};
+              // window.CMS.events.registered = ${JSON.stringify(decapCMSEvents)};
+              // window.CMS.events.registered.forEach(function (event) {
+              //   if (window.CMS.events[event.name]) {
+              //     window.CMS.events[event.name].forEach(function (handler) {
+              //       handler();
+              //     });
+              //   }
+              // };
+            `
+          );
+        }
         if (!adminDisabled) {
           env.schema.PUBLIC_DECAP_CMS_SRC_URL = envField.string({
             context: "client",

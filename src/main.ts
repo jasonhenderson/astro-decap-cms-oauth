@@ -1,6 +1,19 @@
-import type { AstroConfig, AstroIntegration } from "astro";
+import type { AstroConfig, AstroIntegration, AstroMiddlewareInstance } from "astro";
 import { envField } from "astro/config";
 
+// Define the window object type
+declare global {
+  interface Window {
+    CMS: {
+      registerEventListener: any
+    }
+  }
+}
+
+export type DecapCMSEvent = {
+  name: string;
+  handler: () => {};
+};
 export interface DecapCMSOptions {
   decapCMSSrcUrl?: string;
   decapCMSVersion?: string;
@@ -9,6 +22,7 @@ export interface DecapCMSOptions {
   oauthDisabled?: boolean;
   oauthLoginRoute?: string;
   oauthCallbackRoute?: string;
+  decapCMSEvents?: DecapCMSEvent[];
 }
 const defaultOptions: DecapCMSOptions = {
   decapCMSSrcUrl: "",
@@ -18,6 +32,7 @@ const defaultOptions: DecapCMSOptions = {
   oauthDisabled: false,
   oauthLoginRoute: "/oauth",
   oauthCallbackRoute: "/oauth/callback",
+  decapCMSEvents: [],
 };
 
 export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegration {
@@ -29,6 +44,7 @@ export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegratio
     oauthDisabled,
     oauthLoginRoute,
     oauthCallbackRoute,
+    decapCMSEvents,
   } = {
     ...defaultOptions,
     ...options,
@@ -41,8 +57,38 @@ export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegratio
   return {
     name: "astro-decap-cms-oauth",
     hooks: {
-      "astro:config:setup": async ({ injectRoute, updateConfig }) => {
+      "astro:config:setup": async ({ injectRoute, injectScript, updateConfig }) => {
         const env: AstroConfig["env"] = { validateSecrets: true, schema: {} };
+
+        if (decapCMSEvents && decapCMSEvents.length > 0) {
+
+          // AstroConfig.locals.decapCMSEvents = decapCMSEvents;
+          injectScript(
+            "page",
+            `
+              console.log('registering decapCMS events with CMS: ', ${JSON.stringify(decapCMSEvents)});
+              // window.CMS = window.CMS || {};
+              // window.CMS.registerEventListener = function (eventName, handler) {
+              //   if (!window.CMS.events) {
+              //     window.CMS.events = {};
+              //   }
+              //   if (!window.CMS.events[eventName]) {
+              //     window.CMS.events[eventName] = [];
+              //   }
+              //   window.CMS.events[eventName].push(handler);
+              // }
+              // window.CMS.events = window.CMS.events || {};
+              // window.CMS.events.registered = ${JSON.stringify(decapCMSEvents)};
+              // window.CMS.events.registered.forEach(function (event) {
+              //   if (window.CMS.events[event.name]) {
+              //     window.CMS.events[event.name].forEach(function (handler) {
+              //       handler();
+              //     });
+              //   }
+              // };
+            `
+          );
+        }
 
         if (!adminDisabled) {
           env.schema!.PUBLIC_DECAP_CMS_SRC_URL = envField.string({
