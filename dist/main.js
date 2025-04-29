@@ -35,56 +35,58 @@ function decapCMS(options = {}) {
           injectScript(
             "page",
             `
-            console.log('registering decapCMS events with CMS: ', ${JSON.stringify(decapCMSEvents)});
+            (function () {
+              console.log('registering decapCMS events with CMS: ', ${JSON.stringify(decapCMSEvents)});
 
-            if (typeof window === 'undefined' || typeof window.CMS === 'undefined') {
-              console.error('CMS is not defined');
-              return;
-            }
+              if (typeof window === 'undefined' || typeof window.CMS === 'undefined') {
+                console.error('CMS is not defined');
+                return;
+              }
 
-            window.CMS.registerEventListener({
-              name: 'preSave',
-              handler: async ({ entry }: { entry: any }) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
-                  console.log('preSave event triggered');
-                  console.log('entry', entry);
-                  console.log('entry.get', entry.get('data'));
-                  console.log('entry.get.data', entry.get('data').get('title'));
+              window.CMS.registerEventListener({
+                name: 'preSave',
+                handler: async ({ entry }: { entry: any }) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+                    console.log('preSave event triggered');
+                    console.log('entry', entry);
+                    console.log('entry.get', entry.get('data'));
+                    console.log('entry.get.data', entry.get('data').get('title'));
 
-                  //entry.get('data').set('title', 'new title' + Math.random());
-              },
-            });
+                    //entry.get('data').set('title', 'new title' + Math.random());
+                },
+              });
 
-            window.CMS.registerEventListener({
-              name: 'prePublish',
-              handler: async ({ entry }: { entry: any }) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
-                  console.log('prePublish event triggered');
-                  console.log('entry', entry);
-                  console.log('entry.get', entry.get('data'));
-                  console.log('entry.get.data', entry.get('data').get('title'));
+              window.CMS.registerEventListener({
+                name: 'prePublish',
+                handler: async ({ entry }: { entry: any }) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+                    console.log('prePublish event triggered');
+                    console.log('entry', entry);
+                    console.log('entry.get', entry.get('data'));
+                    console.log('entry.get.data', entry.get('data').get('title'));
 
-                  //entry.get('data').set('title', 'new title' + Math.random());
-              },
-            });
-          
-            // window.CMS = window.CMS || {};
-            // window.CMS.registerEventListener = function (eventName, handler) {
-            //   if (!window.CMS.events) {
-            //     window.CMS.events = {};
-            //   }
-            //   if (!window.CMS.events[eventName]) {
-            //     window.CMS.events[eventName] = [];
-            //   }
-            //   window.CMS.events[eventName].push(handler);
-            // }
-            // window.CMS.events = window.CMS.events || {};
-            // window.CMS.events.registered = ${JSON.stringify(decapCMSEvents)};
-            // window.CMS.events.registered.forEach(function (event) {
-            //   if (window.CMS.events[event.name]) {
-            //     window.CMS.events[event.name].forEach(function (handler) {
-            //       handler();
-            //     });
-            //   }
-            // };
+                    //entry.get('data').set('title', 'new title' + Math.random());
+                },
+              });
+            
+              // window.CMS = window.CMS || {};
+              // window.CMS.registerEventListener = function (eventName, handler) {
+              //   if (!window.CMS.events) {
+              //     window.CMS.events = {};
+              //   }
+              //   if (!window.CMS.events[eventName]) {
+              //     window.CMS.events[eventName] = [];
+              //   }
+              //   window.CMS.events[eventName].push(handler);
+              // }
+              // window.CMS.events = window.CMS.events || {};
+              // window.CMS.events.registered = ${JSON.stringify(decapCMSEvents)};
+              // window.CMS.events.registered.forEach(function (event) {
+              //   if (window.CMS.events[event.name]) {
+              //     window.CMS.events[event.name].forEach(function (handler) {
+              //       handler();
+              //     });
+              //   }
+              // };
+            })();
             `
           );
         }
