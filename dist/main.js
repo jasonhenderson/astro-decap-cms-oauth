@@ -46,25 +46,25 @@ function decapCMS(options = {}) {
 
               window.CMS.registerEventListener({
                 name: 'preSave',
-                handler: async (entry) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
-                    console.log('preSave event triggered');
-                    console.log('entry', entry);
-                    console.log('entry.get', entry.get('data'));
-                    console.log('entry.get.data', entry.get('data').get('title'));
+                handler: async (event) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+                    console.log('preSave event triggered', event);
+                    console.log('entry', event.entry);
+                    console.log('entry.get', event.entry.get('data'));
+                    console.log('entry.get.data', event.entry.get('data').get('title'));
 
-                    //entry.get('data').set('title', 'new title' + Math.random());
+                    //event.entry.get('data').set('title', 'new title' + Math.random());
                 },
               });
 
               window.CMS.registerEventListener({
                 name: 'prePublish',
                 handler: async (entry) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
-                    console.log('prePublish event triggered');
-                    console.log('entry', entry);
-                    console.log('entry.get', entry.get('data'));
-                    console.log('entry.get.data', entry.get('data').get('title'));
+                    console.log('prePublish event triggered', event);
+                    console.log('entry', event.entry);
+                    console.log('entry.get', event.entry.get('data'));
+                    console.log('entry.get.data', event.entry.get('data').get('title'));
 
-                    //entry.get('data').set('title', 'new title' + Math.random());
+                    //event.entry.get('data').set('title', 'new title' + Math.random());
                 },
               });
             
