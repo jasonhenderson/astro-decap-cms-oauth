@@ -5,7 +5,9 @@ export default decapCMS;
 
 declare type DecapCMSEvent = {
     name: string;
-    handler: () => {};
+    handler: ({ entry }: {
+        entry: any;
+    }) => Promise<void>;
 };
 
 declare interface DecapCMSOptions {

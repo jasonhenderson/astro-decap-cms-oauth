@@ -32,11 +32,9 @@ function decapCMS(options = {}) {
       "astro:config:setup": async ({ injectRoute, injectScript, updateConfig }) => {
         const env = { validateSecrets: true, schema: {} };
         if (decapCMSEvents && decapCMSEvents.length > 0) {
-          console.log("injecting decapCMSEvents: ", decapCMSEvents);
           injectScript(
             "page",
             `
-            (function () {
               console.log('registering decapCMS events with CMS: ', ${JSON.stringify(decapCMSEvents)});
               // window.CMS = window.CMS || {};
               // window.CMS.registerEventListener = function (eventName, handler) {
@@ -57,7 +55,6 @@ function decapCMS(options = {}) {
               //     });
               //   }
               // };
-            }());
             `
           );
         }
