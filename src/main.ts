@@ -12,7 +12,7 @@ declare global {
 
 export type DecapCMSEvent = {
   name: string;
-  handler: () => {};
+  handler: ({ entry }: { entry: any; }) => Promise<void>;
 };
 export interface DecapCMSOptions {
   decapCMSSrcUrl?: string;
