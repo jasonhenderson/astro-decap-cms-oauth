@@ -46,7 +46,7 @@ function decapCMS(options = {}) {
 
               window.CMS.registerEventListener({
                 name: 'preSave',
-                handler: async ({ entry }: { entry: any }) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+                handler: async (entry) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
                     console.log('preSave event triggered');
                     console.log('entry', entry);
                     console.log('entry.get', entry.get('data'));
@@ -58,7 +58,7 @@ function decapCMS(options = {}) {
 
               window.CMS.registerEventListener({
                 name: 'prePublish',
-                handler: async ({ entry }: { entry: any }) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+                handler: async (entry) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
                     console.log('prePublish event triggered');
                     console.log('entry', entry);
                     console.log('entry.get', entry.get('data'));
