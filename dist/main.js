@@ -50,7 +50,7 @@ function decapCMS(options = {}) {
                     console.log('preSave event triggered', event);
                     console.log('entry', event.entry);
                     console.log('entry.get', event.entry.get('data'));
-                    console.log('entry.get.data', event.entry.get('data').get('title'));
+                    console.log('entry.get.data.title', event.entry.get('data').get('title'));
 
                     //event.entry.get('data').set('title', 'new title' + Math.random());
                 },
@@ -58,11 +58,11 @@ function decapCMS(options = {}) {
 
               window.CMS.registerEventListener({
                 name: 'prePublish',
-                handler: async (entry) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+                handler: async (event) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
                     console.log('prePublish event triggered', event);
                     console.log('entry', event.entry);
                     console.log('entry.get', event.entry.get('data'));
-                    console.log('entry.get.data', event.entry.get('data').get('title'));
+                    console.log('entry.get.data.title', event.entry.get('data').get('title'));
 
                     //event.entry.get('data').set('title', 'new title' + Math.random());
                 },
