@@ -51,42 +51,24 @@ function decapCMS(options = {}) {
                     console.log('entry', event.entry);
                     console.log('entry.get', event.entry.get('data'));
                     console.log('entry.get.data.title', event.entry.get('data').get('title'));
+                    console.log('entry.get.data.path', event.entry.get('data').get('path'));
 
                     //event.entry.get('data').set('title', 'new title' + Math.random());
                 },
               });
 
-              window.CMS.registerEventListener({
-                name: 'prePublish',
-                handler: async (event) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
-                    console.log('prePublish event triggered', event);
-                    console.log('entry', event.entry);
-                    console.log('entry.get', event.entry.get('data'));
-                    console.log('entry.get.data.title', event.entry.get('data').get('title'));
+              // window.CMS.registerEventListener({
+              //   name: 'prePublish',
+              //   handler: async (event) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
+              //       console.log('prePublish event triggered', event);
+              //       console.log('entry', event.entry);
+              //       console.log('entry.get', event.entry.get('data'));
+              //       console.log('entry.get.data.title', event.entry.get('data').get('title'));
+              //       console.log('entry.get.data.path', event.entry.get('data').get('path'));
 
-                    //event.entry.get('data').set('title', 'new title' + Math.random());
-                },
-              });
-            
-              // window.CMS = window.CMS || {};
-              // window.CMS.registerEventListener = function (eventName, handler) {
-              //   if (!window.CMS.events) {
-              //     window.CMS.events = {};
-              //   }
-              //   if (!window.CMS.events[eventName]) {
-              //     window.CMS.events[eventName] = [];
-              //   }
-              //   window.CMS.events[eventName].push(handler);
-              // }
-              // window.CMS.events = window.CMS.events || {};
-              // window.CMS.events.registered = ${JSON.stringify(decapCMSEvents)};
-              // window.CMS.events.registered.forEach(function (event) {
-              //   if (window.CMS.events[event.name]) {
-              //     window.CMS.events[event.name].forEach(function (handler) {
-              //       handler();
-              //     });
-              //   }
-              // };
+              //       //event.entry.get('data').set('title', 'new title' + Math.random());
+              //   },
+              // });
             })();
             `
           );
