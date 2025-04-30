@@ -80,7 +80,7 @@ export default function decapCMS(options: DecapCMSOptions = {}): AstroIntegratio
                 handler: async (event) => {//{ get: (key: string) => { set: (key: string, value: string) => void } } }) => {
                     console.log('preSave event triggered', event);
                     console.log('entry', event.entry);
-                    console.log('entry.get', event.entry.get('data'));
+                    console.log('entry.get', JSON.stringify(event.entry.get('data')));
                     console.log('entry.get.data.title', event.entry.get('data').get('title'));
                     console.log('entry.get.data.path', event.entry.get('data').get('path'));
 
